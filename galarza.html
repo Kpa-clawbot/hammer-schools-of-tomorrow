@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galarza Elementary — Schools of Tomorrow Briefing</title>
+<style>
+  :root {
+    --green: #22c55e;
+    --green-bg: #f0fdf4;
+    --green-border: #86efac;
+    --yellow: #eab308;
+    --yellow-bg: #fefce8;
+    --yellow-border: #fde68a;
+    --red: #ef4444;
+    --red-bg: #fef2f2;
+    --red-border: #fca5a5;
+    --blue: #3b82f6;
+    --blue-dark: #1e40af;
+    --blue-bg: #eff6ff;
+    --amber: #f59e0b;
+    --amber-bg: #fffbeb;
+    --amber-border: #fcd34d;
+    --amber-dark: #92400e;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-400: #9ca3af;
+    --gray-500: #6b7280;
+    --gray-600: #4b5563;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+    --gray-900: #111827;
+    --opt1: #f97316;
+    --opt1-bg: #fff7ed;
+    --opt2: #22c55e;
+    --opt2-bg: #f0fdf4;
+    --opt3: #a855f7;
+    --opt3-bg: #faf5ff;
+    --sq: #6b7280;
+    --sq-bg: #f9fafb;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--gray-50);
+    color: var(--gray-800);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 50%, #1e40af 100%);
+    color: white;
+    padding: 40px 30px;
+    border-radius: 16px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+    position: relative;
+  }
+  .header .subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    position: relative;
+  }
+  .header .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    margin-top: 12px;
+    position: relative;
+  }
+  .header .series-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    margin-top: 8px;
+    margin-left: 8px;
+    position: relative;
+    opacity: 0.8;
+  }
+
+  /* Cards */
+  .card {
+    background: white;
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    border: 1px solid var(--gray-200);
+  }
+  .card h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--gray-700);
+    margin: 20px 0 12px 0;
+  }
+
+  /* Executive Summary — Amber/Yellow for cautious optimism */
+  .exec-summary {
+    background: linear-gradient(135deg, var(--amber-bg) 0%, #fef3c7 100%);
+    border: 2px solid var(--amber-border);
+  }
+  .exec-summary .verdict {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--amber-dark);
+    margin: 12px 0;
+    padding: 16px;
+    background: white;
+    border-radius: 10px;
+    border-left: 5px solid var(--amber);
+  }
+  .exec-summary p { margin-bottom: 10px; color: var(--gray-700); }
+
+  /* Options Grid */
+  .options-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 16px;
+  }
+  @media (max-width: 768px) {
+    .options-grid { grid-template-columns: 1fr; }
+  }
+  .option-card {
+    border-radius: 12px;
+    padding: 20px;
+    border: 2px solid;
+    position: relative;
+  }
+  .option-card.opt1 { background: var(--opt1-bg); border-color: #fdba74; }
+  .option-card.opt2 { background: var(--opt2-bg); border-color: var(--green-border); }
+  .option-card.opt3 { background: var(--opt3-bg); border-color: #c4b5fd; }
+  .option-card .opt-header {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+  }
+  .option-card.opt1 .opt-header { color: #c2410c; }
+  .option-card.opt2 .opt-header { color: #15803d; }
+  .option-card.opt3 .opt-header { color: #7c3aed; }
+  .option-card .opt-impact {
+    font-size: 0.95rem;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 10px 0;
+    font-weight: 600;
+  }
+  .option-card.opt1 .opt-impact { background: #fed7aa; color: #9a3412; }
+  .option-card.opt2 .opt-impact { background: #bbf7d0; color: #166534; }
+  .option-card.opt3 .opt-impact { background: #ddd6fe; color: #5b21b6; }
+  .option-card .opt-detail { font-size: 0.9rem; color: var(--gray-600); margin-top: 8px; }
+  .option-card .opt-closures {
+    font-size: 0.82rem;
+    color: var(--gray-500);
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(0,0,0,0.08);
+  }
+  .best-badge {
+    position: absolute;
+    top: -10px;
+    right: 12px;
+    background: var(--green);
+    color: white;
+    padding: 2px 12px;
+    border-radius: 12px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .danger-badge {
+    position: absolute;
+    top: -10px;
+    right: 12px;
+    background: var(--red);
+    color: white;
+    padding: 2px 12px;
+    border-radius: 12px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Metrics Comparison Table */
+  .metrics-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 16px;
+    font-size: 0.92rem;
+  }
+  .metrics-table thead th {
+    background: var(--gray-800);
+    color: white;
+    padding: 12px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .metrics-table thead th:first-child { border-radius: 8px 0 0 0; }
+  .metrics-table thead th:last-child { border-radius: 0 8px 0 0; }
+  .metrics-table thead th.opt1-col { background: #ea580c; }
+  .metrics-table thead th.opt2-col { background: #16a34a; }
+  .metrics-table thead th.opt3-col { background: #7c3aed; }
+  .metrics-table thead th.sq-col { background: var(--gray-500); }
+  .metrics-table tbody td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--gray-200);
+  }
+  .metrics-table tbody tr:last-child td { border-bottom: none; }
+  .metrics-table tbody tr:nth-child(even) { background: var(--gray-50); }
+  .metrics-table tbody tr:hover { background: var(--blue-bg); }
+  .metrics-table .metric-name {
+    font-weight: 600;
+    color: var(--gray-700);
+  }
+  .metrics-table .best-cell {
+    font-weight: 700;
+    position: relative;
+  }
+  .metrics-table .best-cell::after {
+    content: ' ✅';
+    font-size: 0.85rem;
+  }
+  .winner-indicator { color: var(--green); font-weight: 600; }
+
+  /* Bar Charts */
+  .chart-section { margin: 20px 0; }
+  .chart-title {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--gray-700);
+    margin-bottom: 14px;
+  }
+  .bar-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .bar-label {
+    width: 90px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .bar-label.sq { color: var(--sq); }
+  .bar-label.opt1 { color: var(--opt1); }
+  .bar-label.opt2 { color: var(--opt2); }
+  .bar-label.opt3 { color: var(--opt3); }
+  .bar-track {
+    flex: 1;
+    height: 30px;
+    background: var(--gray-100);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: white;
+    transition: width 0.5s ease;
+    min-width: 50px;
+  }
+  .bar-fill.sq { background: linear-gradient(90deg, #9ca3af, #6b7280); }
+  .bar-fill.opt1 { background: linear-gradient(90deg, #fb923c, #ea580c); }
+  .bar-fill.opt2 { background: linear-gradient(90deg, #4ade80, #16a34a); }
+  .bar-fill.opt3 { background: linear-gradient(90deg, #c084fc, #7c3aed); }
+  .bar-value {
+    font-size: 0.85rem;
+    font-weight: 700;
+    width: 55px;
+    text-align: left;
+    flex-shrink: 0;
+  }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding: 10px 0 10px 30px;
+    margin-top: 16px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 14px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--blue), var(--green));
+    border-radius: 3px;
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 22px;
+    padding: 14px 18px;
+    background: white;
+    border-radius: 10px;
+    border: 1px solid var(--gray-200);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -24px;
+    top: 18px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--blue);
+    border: 3px solid white;
+    box-shadow: 0 0 0 2px var(--blue);
+  }
+  .timeline-item.vote::before {
+    background: var(--green);
+    box-shadow: 0 0 0 2px var(--green);
+    width: 16px;
+    height: 16px;
+    left: -26px;
+    top: 16px;
+  }
+  .timeline-item.vote {
+    border: 2px solid var(--green-border);
+    background: var(--green-bg);
+  }
+  .timeline-item.past {
+    opacity: 0.55;
+  }
+  .timeline-item.past::before {
+    background: var(--gray-400);
+    box-shadow: 0 0 0 2px var(--gray-400);
+  }
+  .tl-date {
+    font-weight: 700;
+    color: var(--blue-dark);
+    font-size: 0.95rem;
+  }
+  .tl-event {
+    font-size: 0.95rem;
+    color: var(--gray-600);
+    margin-top: 3px;
+  }
+  .tl-detail {
+    font-size: 0.82rem;
+    color: var(--gray-400);
+    margin-top: 4px;
+  }
+  .vote .tl-date { color: #15803d; }
+
+  /* School Closures Grid */
+  .closures-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 16px;
+  }
+  @media (max-width: 768px) {
+    .closures-grid { grid-template-columns: 1fr; }
+  }
+  .closure-list {
+    border-radius: 10px;
+    padding: 16px;
+    border: 2px solid;
+  }
+  .closure-list.opt1 { border-color: #fdba74; background: var(--opt1-bg); }
+  .closure-list.opt2 { border-color: var(--green-border); background: var(--opt2-bg); }
+  .closure-list.opt3 { border-color: #c4b5fd; background: var(--opt3-bg); }
+  .closure-list h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .closure-list.opt1 h4 { color: #c2410c; }
+  .closure-list.opt2 h4 { color: #15803d; }
+  .closure-list.opt3 h4 { color: #7c3aed; }
+  .closure-list ul {
+    list-style: none;
+    padding: 0;
+  }
+  .closure-list li {
+    font-size: 0.85rem;
+    padding: 4px 0;
+    color: var(--gray-600);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .closure-list li::before {
+    content: '✕';
+    font-weight: 700;
+    font-size: 0.7rem;
+    color: var(--red);
+    flex-shrink: 0;
+  }
+  .closure-list li.highlight {
+    font-weight: 700;
+    color: var(--gray-800);
+    background: rgba(239, 68, 68, 0.1);
+    padding: 4px 6px;
+    border-radius: 4px;
+    margin: 2px -6px;
+  }
+  .closure-list li.safe {
+    font-weight: 700;
+    color: #15803d;
+    background: rgba(34, 197, 94, 0.1);
+    padding: 4px 6px;
+    border-radius: 4px;
+    margin: 2px -6px;
+  }
+  .closure-list li.safe::before {
+    content: '✓';
+    color: #15803d;
+  }
+
+  /* Links */
+  .links-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 16px;
+  }
+  @media (max-width: 600px) {
+    .links-grid { grid-template-columns: 1fr; }
+  }
+  .link-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--gray-700);
+    transition: all 0.2s ease;
+  }
+  .link-card:hover {
+    border-color: var(--blue);
+    background: var(--blue-bg);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
+  }
+  .link-card .link-icon { font-size: 1.4rem; }
+  .link-card .link-text {
+    font-weight: 600;
+    font-size: 0.92rem;
+  }
+  .link-card .link-desc {
+    font-size: 0.78rem;
+    color: var(--gray-400);
+    margin-top: 2px;
+  }
+
+  /* Analysis callout */
+  .callout {
+    padding: 16px 20px;
+    border-radius: 10px;
+    margin: 14px 0;
+    font-size: 0.93rem;
+  }
+  .callout.info {
+    background: var(--blue-bg);
+    border-left: 4px solid var(--blue);
+    color: #1e40af;
+  }
+  .callout.success {
+    background: var(--green-bg);
+    border-left: 4px solid var(--green);
+    color: #15803d;
+  }
+  .callout.warning {
+    background: var(--yellow-bg);
+    border-left: 4px solid var(--yellow);
+    color: #92400e;
+  }
+  .callout.danger {
+    background: var(--red-bg);
+    border-left: 4px solid var(--red);
+    color: #991b1b;
+  }
+
+  /* Score badges */
+  .score-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+  .score-badge.win { background: #dcfce7; color: #15803d; }
+  .score-badge.mid { background: #fef3c7; color: #92400e; }
+  .score-badge.low { background: #fee2e2; color: #991b1b; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 20px;
+    color: var(--gray-400);
+    font-size: 0.8rem;
+    margin-top: 10px;
+  }
+
+  /* SVG Charts */
+  .svg-chart-container {
+    margin: 20px 0;
+    overflow-x: auto;
+  }
+  .svg-chart-container svg {
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* Galarza fate cards */
+  .fate-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 20px 0;
+  }
+  @media (max-width: 768px) {
+    .fate-grid { grid-template-columns: 1fr; }
+  }
+  .fate-card {
+    text-align: center;
+    padding: 20px 16px;
+    border-radius: 12px;
+    border: 2px solid;
+  }
+  .fate-card .fate-icon { font-size: 2.5rem; margin-bottom: 8px; }
+  .fate-card .fate-label { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .fate-card .fate-desc { font-size: 0.85rem; margin-top: 6px; }
+
+  /* Print styles */
+  @media print {
+    body { background: white; }
+    .container { max-width: 100%; padding: 0; }
+    .card { box-shadow: none; border: 1px solid #ddd; page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- Header -->
+<div class="header">
+  <h1>🏫 Galarza Elementary — Schools of Tomorrow</h1>
+  <div class="subtitle">SJUSD School Consolidation: What It Means for Galarza Families</div>
+  <div class="badge">📅 Board Vote: March 12, 2026</div>
+  <div class="series-tag">Part of the Hammer/Galarza campus series</div>
+</div>
+
+<!-- Executive Summary -->
+<div class="card exec-summary">
+  <h2>📋 Executive Summary</h2>
+  <p>San José Unified School District (SJUSD) is consolidating elementary schools due to declining enrollment. The <strong>Schools of Tomorrow Implementation Committee (STIC)</strong> is evaluating <strong>3 options</strong> that determine which schools close and which stay open.</p>
+  
+  <div class="verdict">
+    🟡 Galarza Elementary is SAFE in the two most likely outcomes (Options 1 and 2) — but CLOSES under Option 3. Option 3 is the least likely scenario, but parents should stay engaged and informed.
+  </div>
+
+  <p>Galarza is a neighborhood school that shares a campus with Hammer Montessori (a magnet program). Together they enroll <strong>644 students</strong>, near the district's ideal of 600–700 per campus. But separately, each school is well under the ideal class size — which is the metric the committee cares most about.</p>
+  
+  <p><strong>Option 2 is the frontrunner</strong> — it leads on the committee's #1 priority (74% at ideal class size in 7 years), delivers the best cost savings, best equity outcomes, and least student disruption. Under Option 2, <strong>nothing changes for Galarza</strong>.</p>
+
+  <div class="callout warning" style="margin-top: 16px; margin-bottom: 0;">
+    <strong>⚠️ Why "cautiously optimistic"?</strong> Option 3 <em>does</em> close Galarza. While Option 3 performs worst on the committee's #1 priority (class size), politics can sometimes override data. Active parent engagement is the best insurance.
+  </div>
+</div>
+
+<!-- Galarza's Fate Summary -->
+<div class="card">
+  <h2>🎯 Galarza's Fate Under Each Option</h2>
+  <p style="color: var(--gray-500); margin-bottom: 12px;">A quick visual summary of what each scenario means for Galarza Elementary</p>
+
+  <div class="fate-grid">
+    <div class="fate-card" style="background: var(--opt1-bg); border-color: #fdba74;">
+      <div class="fate-icon">✅</div>
+      <div class="fate-label" style="color: #c2410c;">Option 1</div>
+      <div class="fate-desc" style="color: var(--gray-600);">
+        <strong>Galarza STAYS OPEN</strong><br>
+        Hammer relocates to Rachel Carson campus — Galarza gets the campus more to itself.
+      </div>
+    </div>
+    <div class="fate-card" style="background: var(--opt2-bg); border-color: var(--green-border);">
+      <div class="fate-icon">✅</div>
+      <div class="fate-label" style="color: #15803d;">Option 2 ⭐ Frontrunner</div>
+      <div class="fate-desc" style="color: var(--gray-600);">
+        <strong>NO CHANGE</strong><br>
+        Galarza stays open. Hammer stays on campus. Complete status quo.
+      </div>
+    </div>
+    <div class="fate-card" style="background: var(--red-bg); border-color: var(--red-border);">
+      <div class="fate-icon">🚨</div>
+      <div class="fate-label" style="color: #991b1b;">Option 3</div>
+      <div class="fate-desc" style="color: var(--gray-600);">
+        <strong>GALARZA CLOSES</strong><br>
+        Students reassigned to other schools. Hammer stays on campus alone.
+      </div>
+    </div>
+  </div>
+
+  <div class="callout info">
+    <strong>💡 Key insight:</strong> The two options where Galarza survives (Options 1 and 2) are also the two that perform better on the committee's #1 priority — ideal class size. Option 3, which closes Galarza, is the weakest on this metric (44% vs 55% and 74%).
+  </div>
+</div>
+
+<!-- Three Options Detail -->
+<div class="card">
+  <h2>🔍 The Three Options in Detail</h2>
+  <p style="color: var(--gray-500); margin-bottom: 12px;">What happens to Galarza Elementary under each scenario</p>
+  
+  <div class="options-grid">
+    <!-- Option 1 -->
+    <div class="option-card opt1">
+      <div class="opt-header">Option 1</div>
+      <div class="opt-impact">✅ Galarza STAYS — Hammer leaves</div>
+      <div class="opt-detail">
+        Galarza remains open as a neighborhood school. Hammer Montessori relocates to the Rachel Carson campus, giving Galarza the shared campus largely to itself.
+      </div>
+      <div class="opt-detail">
+        <span class="score-badge mid">55% ideal class size</span><br>
+        <span class="score-badge mid">$711/student</span><br>
+        <span class="score-badge low">639 students displaced</span>
+      </div>
+      <div class="opt-closures"><strong>9 schools close:</strong> Almaden, Anne Darling, Canoas, Gardner, Lowell, Rachel Carson, Selma Olinder, Simonds, Bachrodt</div>
+    </div>
+    
+    <!-- Option 2 -->
+    <div class="option-card opt2">
+      <div class="best-badge">⭐ MOST LIKELY</div>
+      <div class="opt-header">Option 2</div>
+      <div class="opt-impact">✅ NO CHANGE for Galarza</div>
+      <div class="opt-detail">
+        Galarza stays open. Hammer stays on the shared campus. Nothing changes. Best across nearly all metrics and the committee frontrunner.
+      </div>
+      <div class="opt-detail">
+        <span class="score-badge win">74% ideal class size</span><br>
+        <span class="score-badge win">$647/student</span><br>
+        <span class="score-badge win">410 students displaced</span>
+      </div>
+      <div class="opt-closures"><strong>9 schools close:</strong> Empire Gardens, Gardner, Lowell, Rachel Carson, Reed, Selma Olinder, Terrell, Bachrodt, Williams</div>
+    </div>
+    
+    <!-- Option 3 -->
+    <div class="option-card opt3">
+      <div class="danger-badge">⚠️ RISK</div>
+      <div class="opt-header">Option 3</div>
+      <div class="opt-impact">🚨 GALARZA CLOSES</div>
+      <div class="opt-detail">
+        Galarza Elementary is shut down. All Galarza students are reassigned to other schools. Hammer Montessori remains and occupies the campus alone.
+      </div>
+      <div class="opt-detail">
+        <span class="score-badge low">44% ideal class size</span><br>
+        <span class="score-badge mid">$724/student</span><br>
+        <span class="score-badge low">647 students displaced</span>
+      </div>
+      <div class="opt-closures"><strong>8 schools close:</strong> Almaden, Empire Gardens, <strong>GALARZA</strong>, Gardner, Grant, Rachel Carson, Reed, Williams</div>
+    </div>
+  </div>
+</div>
+
+<!-- Campus Context -->
+<div class="card">
+  <h2>🏠 The Shared Campus Dynamic</h2>
+  <p style="color: var(--gray-500); margin-bottom: 12px;">Understanding why Galarza and Hammer are intertwined in this decision</p>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px;">
+    <div style="padding: 18px; background: var(--blue-bg); border-radius: 10px; border: 1px solid #bfdbfe;">
+      <div style="font-weight: 700; color: var(--blue-dark); margin-bottom: 8px;">📍 Galarza Elementary</div>
+      <div style="font-size: 0.9rem; color: var(--gray-600);">
+        <strong>Type:</strong> Neighborhood school<br>
+        <strong>Program:</strong> Traditional / possibly bilingual<br>
+        <strong>Serves:</strong> Local attendance area families<br>
+        <strong>Enrollment:</strong> Part of 644 combined
+      </div>
+    </div>
+    <div style="padding: 18px; background: var(--gray-50); border-radius: 10px; border: 1px solid var(--gray-200);">
+      <div style="font-weight: 700; color: var(--gray-700); margin-bottom: 8px;">🧩 Hammer Montessori</div>
+      <div style="font-size: 0.9rem; color: var(--gray-600);">
+        <strong>Type:</strong> Magnet school (choice program)<br>
+        <strong>Program:</strong> Montessori method<br>
+        <strong>Serves:</strong> Families across the district<br>
+        <strong>Enrollment:</strong> Part of 644 combined
+      </div>
+    </div>
+  </div>
+
+  <div class="callout info" style="margin-top: 16px;">
+    <strong>The enrollment paradox:</strong> Together, Galarza + Hammer have 644 students — near the ideal 600–700 per campus. But they're counted as <em>two separate schools</em>, so individually each falls well below the ideal of 3 classes per grade level. The district sees two under-enrolled schools sharing space, not one well-sized campus.
+  </div>
+</div>
+
+<!-- Metrics Charts -->
+<div class="card">
+  <h2>📊 Key Metrics Comparison</h2>
+  <p style="color: var(--gray-500); margin-bottom: 8px;">Data from STIC February 10 metrics summary. Green check = best performer.</p>
+
+  <!-- Chart 1: Ideal Class Size -->
+  <div class="chart-section">
+    <div class="chart-title">Criterion 1 — Ideal Class Size in 7 Years (higher = better)</div>
+    <div class="bar-chart">
+      <div class="bar-row">
+        <div class="bar-label sq">Status Quo</div>
+        <div class="bar-track"><div class="bar-fill sq" style="width: 30%;">30%</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label opt1">Option 1</div>
+        <div class="bar-track"><div class="bar-fill opt1" style="width: 55%;">55%</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label opt2">Option 2 ✅</div>
+        <div class="bar-track"><div class="bar-fill opt2" style="width: 74%;">74%</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label opt3">Option 3</div>
+        <div class="bar-track"><div class="bar-fill opt3" style="width: 44%;">44%</div></div>
+      </div>
+    </div>
+    <div class="callout success" style="margin-top: 12px;">
+      <strong>Committee's #1 Priority.</strong> Option 2 delivers 74% of schools at ideal class size (3 classes/grade, ~600–700 students) — far ahead of the alternatives. Option 3, which would close Galarza, is the <em>weakest</em> on this metric at just 44%.
+    </div>
+  </div>
+
+  <!-- Chart 2: Per-Student Cost -->
+  <div class="chart-section">
+    <div class="chart-title">Criterion 3 — Per-Student Plant Costs (lower = better)</div>
+    <div class="bar-chart">
+      <div class="bar-row">
+        <div class="bar-label sq">Status Quo</div>
+        <div class="bar-track"><div class="bar-fill sq" style="width: 100%;">$950</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label opt1">Option 1</div>
+        <div class="bar-track"><div class="bar-fill opt1" style="width: 74.8%;">$711</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label opt2">Option 2 ✅</div>
+        <div class="bar-track"><div class="bar-fill opt2" style="width: 68.1%;">$647</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label opt3">Option 3</div>
+        <div class="bar-track"><div class="bar-fill opt3" style="width: 76.2%;">$724</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chart 3: Bilingual Programs -->
+  <div class="chart-section">
+    <div class="chart-title">Criterion 5 — Bilingual Programs at Ideal (higher = better)</div>
+    <div class="bar-chart">
+      <div class="bar-row">
+        <div class="bar-label sq">Status Quo</div>
+        <div class="bar-track"><div class="bar-fill sq" style="width: 45.8%;">27%</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label opt1">Option 1</div>
+        <div class="bar-track"><div class="bar-fill opt1" style="width: 88.1%;">52%</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label opt2">Option 2 ✅</div>
+        <div class="bar-track"><div class="bar-fill opt2" style="width: 100%;">59%</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label opt3">Option 3</div>
+        <div class="bar-track"><div class="bar-fill opt3" style="width: 74.6%;">44%</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chart 4: Student Disruption -->
+  <div class="chart-section">
+    <div class="chart-title">Students Displaced to Different School Than Classmates (lower = better)</div>
+    <div class="bar-chart">
+      <div class="bar-row">
+        <div class="bar-label opt1">Option 1</div>
+        <div class="bar-track"><div class="bar-fill opt1" style="width: 98.8%;">639</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label opt2">Option 2 ✅</div>
+        <div class="bar-track"><div class="bar-fill opt2" style="width: 63.3%;">410</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label opt3">Option 3</div>
+        <div class="bar-track"><div class="bar-fill opt3" style="width: 100%;">647</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Full Metrics Table -->
+<div class="card">
+  <h2>📋 Complete Metrics Table</h2>
+  <div style="overflow-x: auto;">
+  <table class="metrics-table">
+    <thead>
+      <tr>
+        <th>Metric</th>
+        <th class="sq-col">Status Quo</th>
+        <th class="opt1-col">Option 1</th>
+        <th class="opt2-col">Option 2</th>
+        <th class="opt3-col">Option 3</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="metric-name">📐 Ideal Class Size (now)</td>
+        <td>24%</td>
+        <td>51%</td>
+        <td class="best-cell">65%</td>
+        <td>37%</td>
+      </tr>
+      <tr>
+        <td class="metric-name">📐 Ideal Class Size (7yr)</td>
+        <td>30%</td>
+        <td>55%</td>
+        <td class="best-cell">74%</td>
+        <td>44%</td>
+      </tr>
+      <tr>
+        <td class="metric-name">💰 Per-Student Cost</td>
+        <td>$950</td>
+        <td>$711</td>
+        <td class="best-cell">$647</td>
+        <td>$724</td>
+      </tr>
+      <tr>
+        <td class="metric-name">🌐 Bilingual Programs at Ideal</td>
+        <td>27%</td>
+        <td>52%</td>
+        <td class="best-cell">59%</td>
+        <td>44%</td>
+      </tr>
+      <tr>
+        <td class="metric-name">😢 Students Displaced</td>
+        <td>—</td>
+        <td>639</td>
+        <td class="best-cell">410</td>
+        <td>647</td>
+      </tr>
+      <tr>
+        <td class="metric-name">🚶 Walkability (now)</td>
+        <td class="best-cell">87%</td>
+        <td>79%</td>
+        <td>76%</td>
+        <td>76%</td>
+      </tr>
+      <tr>
+        <td class="metric-name">🏗️ Facility Condition (0–12)</td>
+        <td class="best-cell">9.9</td>
+        <td>8.7</td>
+        <td>8.6</td>
+        <td>9.1</td>
+      </tr>
+      <tr>
+        <td class="metric-name">🏫 Galarza Status</td>
+        <td style="color: #15803d; font-weight: 700;">Open ✅</td>
+        <td style="color: #15803d; font-weight: 700;">Open ✅</td>
+        <td style="color: #15803d; font-weight: 700;">Open ✅</td>
+        <td style="color: #991b1b; font-weight: 700;">CLOSES ❌</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<!-- Why Option 3 is Unlikely -->
+<div class="card">
+  <h2>🛡️ Why Galarza Is Probably Safe</h2>
+  <p style="color: var(--gray-500); margin-bottom: 12px;">The case for cautious optimism</p>
+  
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 16px;">
+    <div style="padding: 16px; border-radius: 10px; background: #dcfce7; text-align: center;">
+      <div style="font-size: 1.5rem;">🥇</div>
+      <div style="font-weight: 700; color: #15803d; font-size: 0.95rem;">Option 2 Wins on #1 Priority</div>
+      <div style="font-size: 0.82rem; color: #166534;">74% ideal class size — best by 19+ pts</div>
+    </div>
+    <div style="padding: 16px; border-radius: 10px; background: #dcfce7; text-align: center;">
+      <div style="font-size: 1.5rem;">💰</div>
+      <div style="font-weight: 700; color: #15803d; font-size: 0.95rem;">Option 2 Saves Most Money</div>
+      <div style="font-size: 0.82rem; color: #166534;">$647/student — lowest per-student cost</div>
+    </div>
+    <div style="padding: 16px; border-radius: 10px; background: #dcfce7; text-align: center;">
+      <div style="font-size: 1.5rem;">👥</div>
+      <div style="font-weight: 700; color: #15803d; font-size: 0.95rem;">Option 2 Disrupts Fewest Kids</div>
+      <div style="font-size: 0.82rem; color: #166534;">410 displaced vs 639–647 in others</div>
+    </div>
+    <div style="padding: 16px; border-radius: 10px; background: #dcfce7; text-align: center;">
+      <div style="font-size: 1.5rem;">⚖️</div>
+      <div style="font-weight: 700; color: #15803d; font-size: 0.95rem;">Option 2 Best for Equity</div>
+      <div style="font-size: 0.82rem; color: #166534;">59% bilingual programs at ideal</div>
+    </div>
+  </div>
+
+  <div class="callout danger">
+    <strong>🔴 The Option 3 scenario:</strong> Option 3 performs worst on the committee's stated #1 priority (class size: only 44%). It also displaces the most students (647) and costs more per student than Option 2. The committee would have to actively ignore their own stated priority to choose Option 3. While not impossible, it's unlikely.
+  </div>
+
+  <h3>Option 3's Only Advantage</h3>
+  <p style="color: var(--gray-600); margin-bottom: 16px;">Option 3 does have one strength: it maintains Special Day Classes (for students with IEPs) at 72% ideal, tied with the Status Quo. Options 1 and 2 drop this to 61%. If the committee decides special education placement outweighs class size, Option 3 could gain traction — but the committee has repeatedly stated class size is their top priority.</p>
+</div>
+
+<!-- Parent Analysis -->
+<div class="card">
+  <h2>🔎 Parent Analysis & Insights</h2>
+  
+  <div class="callout info">
+    <strong>💡 The committee explicitly said core class size is the #1 priority.</strong> Option 2 leads this metric by a wide margin (74% vs 55% vs 44%). Since Galarza is safe under Option 2, the committee's own framework works in Galarza's favor.
+  </div>
+
+  <h3>What "No Change" Really Means Under Option 2</h3>
+  <ul style="padding-left: 20px; color: var(--gray-600); margin-bottom: 16px;">
+    <li style="margin-bottom: 8px;">Galarza stays open at its current location</li>
+    <li style="margin-bottom: 8px;">Hammer Montessori continues sharing the campus</li>
+    <li style="margin-bottom: 8px;">No student reassignments from Galarza</li>
+    <li style="margin-bottom: 8px;">No boundary changes affecting Galarza families</li>
+    <li style="margin-bottom: 8px;">Complete status quo — the best possible outcome</li>
+  </ul>
+
+  <h3>What If Option 1 Wins Instead?</h3>
+  <div class="callout success">
+    <strong>Option 1 is also good for Galarza.</strong> Hammer Montessori relocates to the Rachel Carson campus, which means Galarza would have the shared campus more to itself. This could actually benefit Galarza in terms of space and resources — though Option 1 is unlikely given it performs worst on class size.
+  </div>
+
+  <h3>The Walkability Factor</h3>
+  <div class="callout warning">
+    <strong>⚠️ Neighborhood schools care about walkability.</strong> On walkability, the Status Quo (87%) beats all options. Options 2 and 3 both sit at 76%. For Galarza families who walk to school, any consolidation option reduces walkability somewhat — but the difference between options is minimal. The real threat to walkability is if Galarza closes (Option 3) and children must walk to a farther school.
+  </div>
+
+  <h3>How Parents Can Make a Difference</h3>
+  <ul style="padding-left: 20px; color: var(--gray-600);">
+    <li style="margin-bottom: 8px;"><strong>Attend STIC meetings</strong> — public comment shapes committee thinking</li>
+    <li style="margin-bottom: 8px;"><strong>Emphasize class size data</strong> — reinforce that the #1 priority favors Option 2</li>
+    <li style="margin-bottom: 8px;"><strong>Highlight the campus synergy</strong> — Galarza + Hammer together reach the 600–700 ideal</li>
+    <li style="margin-bottom: 8px;"><strong>Show up at the March 12 Board vote</strong> — this is the final decision point</li>
+    <li style="margin-bottom: 8px;"><strong>Connect with other Galarza families</strong> — a coordinated voice carries more weight</li>
+  </ul>
+</div>
+
+<!-- School Closures -->
+<div class="card">
+  <h2>🏫 School Closures by Option</h2>
+  <p style="color: var(--gray-500); margin-bottom: 4px;">Schools marked with ❌ close. Galarza's status is highlighted.</p>
+  
+  <div class="closures-grid">
+    <div class="closure-list opt1">
+      <h4>Option 1 — 9 schools close</h4>
+      <ul>
+        <li>Almaden</li>
+        <li>Anne Darling</li>
+        <li>Canoas</li>
+        <li>Gardner</li>
+        <li>Lowell</li>
+        <li>Rachel Carson</li>
+        <li>Selma Olinder</li>
+        <li>Simonds</li>
+        <li>Bachrodt</li>
+      </ul>
+      <div style="font-size: 0.82rem; color: #15803d; font-weight: 600; margin-top: 8px;">✅ Galarza STAYS OPEN</div>
+    </div>
+    <div class="closure-list opt2">
+      <h4>Option 2 — 9 schools close</h4>
+      <ul>
+        <li>Empire Gardens</li>
+        <li>Gardner</li>
+        <li>Lowell</li>
+        <li>Rachel Carson</li>
+        <li>Reed</li>
+        <li>Selma Olinder</li>
+        <li>Terrell</li>
+        <li>Bachrodt</li>
+        <li>Williams</li>
+      </ul>
+      <div style="font-size: 0.82rem; color: #15803d; font-weight: 600; margin-top: 8px;">✅ Galarza STAYS OPEN</div>
+    </div>
+    <div class="closure-list opt3">
+      <h4>Option 3 — 8 schools close</h4>
+      <ul>
+        <li>Almaden</li>
+        <li>Empire Gardens</li>
+        <li class="highlight">⚠️ GALARZA — CLOSES!</li>
+        <li>Gardner</li>
+        <li>Grant</li>
+        <li>Rachel Carson</li>
+        <li>Reed</li>
+        <li>Williams</li>
+      </ul>
+      <div style="font-size: 0.82rem; color: #991b1b; font-weight: 600; margin-top: 8px;">❌ Galarza students reassigned</div>
+    </div>
+  </div>
+
+  <div style="margin-top: 16px; font-size: 0.88rem; color: var(--gray-500);">
+    <strong>Schools that close in ALL options:</strong> Gardner, Rachel Carson<br>
+    <strong>Galarza + Hammer combined enrollment:</strong> 644 students (near the 600–700 ideal for one campus)
+  </div>
+</div>
+
+<!-- Timeline -->
+<div class="card">
+  <h2>📅 Decision Timeline</h2>
+  <p style="color: var(--gray-500); margin-bottom: 8px;">Key meetings and dates leading to the board vote</p>
+  
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="tl-date">📌 Monday, February 10, 2026</div>
+      <div class="tl-event"><strong>STIC Meeting</strong> — Metrics review & discussion</div>
+      <div class="tl-detail">6–8 PM · 855 Lenzen Ave, Room 150 · <a href="https://sjusd.webex.com/sjusd/j.php?MTID=m9cd7f6428fd177bba7e5b9636d729141" target="_blank">Livestream ↗</a></div>
+    </div>
+    
+    <div class="timeline-item">
+      <div class="tl-date">📌 Thursday, February 12, 2026</div>
+      <div class="tl-event"><strong>Board Meeting</strong> — Update from STIC</div>
+      <div class="tl-detail">6–8 PM</div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="tl-date">📌 Tuesday, February 24, 2026</div>
+      <div class="tl-event"><strong>STIC Meeting</strong> — Continued deliberation</div>
+      <div class="tl-detail">6–8 PM</div>
+    </div>
+    
+    <div class="timeline-item">
+      <div class="tl-date">📌 Tuesday, March 3, 2026</div>
+      <div class="tl-event"><strong>STIC Meeting</strong> — Final meeting before vote</div>
+      <div class="tl-detail">6–8 PM · Last chance for public input</div>
+    </div>
+    
+    <div class="timeline-item vote">
+      <div class="tl-date">🗳️ Thursday, March 12, 2026</div>
+      <div class="tl-event"><strong>BOARD VOTES</strong> on STIC recommendation</div>
+      <div class="tl-detail">This is the final decision point — be there!</div>
+    </div>
+  </div>
+</div>
+
+<!-- Most Likely Outcome -->
+<div class="card">
+  <h2>🎯 Most Likely Outcome Assessment</h2>
+  
+  <div style="display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 200px; padding: 20px; background: var(--green-bg); border: 2px solid var(--green-border); border-radius: 12px; text-align: center;">
+      <div style="font-size: 2rem; font-weight: 800; color: #15803d;">Option 2</div>
+      <div style="font-size: 0.9rem; color: #166534; font-weight: 600; margin-top: 4px;">Most Likely to Pass</div>
+      <div style="font-size: 0.82rem; color: var(--gray-500); margin-top: 8px;">Wins #1 priority by a wide margin.<br>Best on equity, cost, and disruption.<br><strong style="color: #15803d;">Galarza: NO CHANGE ✅</strong></div>
+    </div>
+    <div style="flex: 1; min-width: 200px; padding: 20px; background: var(--opt1-bg); border: 2px solid #fdba74; border-radius: 12px; text-align: center;">
+      <div style="font-size: 2rem; font-weight: 800; color: #c2410c;">Option 1</div>
+      <div style="font-size: 0.9rem; color: #9a3412; font-weight: 600; margin-top: 4px;">Possible but Unlikely</div>
+      <div style="font-size: 0.82rem; color: var(--gray-500); margin-top: 8px;">Called "least favorable" on #1 priority.<br>Hammer relocates; Galarza stays.<br><strong style="color: #15803d;">Galarza: SAFE ✅</strong></div>
+    </div>
+    <div style="flex: 1; min-width: 200px; padding: 20px; background: var(--red-bg); border: 2px solid var(--red-border); border-radius: 12px; text-align: center;">
+      <div style="font-size: 2rem; font-weight: 800; color: #991b1b;">Option 3</div>
+      <div style="font-size: 0.9rem; color: #991b1b; font-weight: 600; margin-top: 4px;">Least Likely</div>
+      <div style="font-size: 0.82rem; color: var(--gray-500); margin-top: 8px;">Weakest on class size (44%).<br>Most students displaced (647).<br><strong style="color: #991b1b;">Galarza: CLOSES ❌</strong></div>
+    </div>
+  </div>
+
+  <div class="callout warning">
+    <strong>🟡 Bottom line for Galarza families:</strong> Galarza is safe in the two most likely outcomes. The data strongly favors Option 2 (no change). Option 3, which would close Galarza, is the weakest option on the committee's own top priority. The odds are in Galarza's favor — but don't be complacent. Show up at the Feb 10 meeting, the Mar 3 final STIC meeting, and especially the Mar 12 Board vote. Engaged parents are Galarza's best insurance policy.
+  </div>
+</div>
+
+<!-- SVG Summary Chart -->
+<div class="card">
+  <h2>📈 Option 2 Advantage — Visual Summary</h2>
+  <p style="color: var(--gray-500); margin-bottom: 16px;">How many criteria each option wins (out of 8 primary metrics)</p>
+  
+  <div class="svg-chart-container">
+    <svg width="500" height="220" viewBox="0 0 500 220" xmlns="http://www.w3.org/2000/svg">
+      <!-- Background -->
+      <rect width="500" height="220" fill="none"/>
+      
+      <!-- Y-axis labels -->
+      <text x="90" y="60" text-anchor="end" font-size="14" font-weight="600" fill="#c2410c" font-family="system-ui">Option 1</text>
+      <text x="90" y="115" text-anchor="end" font-size="14" font-weight="700" fill="#16a34a" font-family="system-ui">Option 2</text>
+      <text x="90" y="170" text-anchor="end" font-size="14" font-weight="600" fill="#7c3aed" font-family="system-ui">Option 3</text>
+      
+      <!-- Bar backgrounds -->
+      <rect x="100" y="40" width="360" height="34" rx="6" fill="#f3f4f6"/>
+      <rect x="100" y="95" width="360" height="34" rx="6" fill="#f3f4f6"/>
+      <rect x="100" y="150" width="360" height="34" rx="6" fill="#f3f4f6"/>
+      
+      <!-- Bars -->
+      <rect x="100" y="40" width="90" height="34" rx="6" fill="url(#grad-opt1)"/>
+      <rect x="100" y="95" width="225" height="34" rx="6" fill="url(#grad-opt2)"/>
+      <rect x="100" y="150" width="45" height="34" rx="6" fill="url(#grad-opt3)"/>
+      
+      <!-- Bar labels -->
+      <text x="200" y="62" text-anchor="middle" font-size="14" font-weight="700" fill="white" font-family="system-ui">1 win</text>
+      <text x="212" y="117" text-anchor="middle" font-size="14" font-weight="700" fill="white" font-family="system-ui">5 wins ⭐</text>
+      <text x="165" y="172" text-anchor="middle" font-size="14" font-weight="700" fill="white" font-family="system-ui">1*</text>
+      
+      <!-- Footnote -->
+      <text x="100" y="208" font-size="11" fill="#9ca3af" font-family="system-ui">*Option 3 wins Special Day Classes (tied with Status Quo). Status Quo wins walkability &amp; facility condition.</text>
+      
+      <!-- Gradients -->
+      <defs>
+        <linearGradient id="grad-opt1" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#fb923c"/>
+          <stop offset="100%" stop-color="#ea580c"/>
+        </linearGradient>
+        <linearGradient id="grad-opt2" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#4ade80"/>
+          <stop offset="100%" stop-color="#16a34a"/>
+        </linearGradient>
+        <linearGradient id="grad-opt3" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#c084fc"/>
+          <stop offset="100%" stop-color="#7c3aed"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+</div>
+
+<!-- Links -->
+<div class="card">
+  <h2>🔗 Resources & Links</h2>
+  
+  <div class="links-grid">
+    <a href="https://www.sjusd.org/about/schools-of-tomorrow" target="_blank" class="link-card">
+      <div class="link-icon">🌐</div>
+      <div>
+        <div class="link-text">Schools of Tomorrow — Main Page</div>
+        <div class="link-desc">SJUSD official overview</div>
+      </div>
+    </a>
+    
+    <a href="https://sjusd.app.box.com/s/hmk79zw3ubmsf70gsypnq1q8rfopm8xo/folder/363134034258" target="_blank" class="link-card">
+      <div class="link-icon">📁</div>
+      <div>
+        <div class="link-text">Documents & Recordings</div>
+        <div class="link-desc">All STIC meeting materials</div>
+      </div>
+    </a>
+    
+    <a href="https://sjusd.webex.com/sjusd/j.php?MTID=m9cd7f6428fd177bba7e5b9636d729141" target="_blank" class="link-card">
+      <div class="link-icon">📺</div>
+      <div>
+        <div class="link-text">Feb 10 Livestream</div>
+        <div class="link-desc">Watch the STIC meeting live</div>
+      </div>
+    </a>
+
+    <a href="hammer-schools-of-tomorrow.html" class="link-card">
+      <div class="link-icon">🧩</div>
+      <div>
+        <div class="link-text">Hammer Montessori Briefing</div>
+        <div class="link-desc">Companion report for the magnet program</div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <p>Prepared February 7, 2026 · Data from STIC Feb 10 Metrics Summary</p>
+  <p>This is a family reference document, not an official SJUSD publication.</p>
+  <p style="margin-top: 6px;">Part of the Hammer/Galarza campus briefing series · <a href="hammer-schools-of-tomorrow.html" style="color: var(--gray-400);">See also: Hammer Montessori briefing</a></p>
+</div>
+
+</div>
+
+</body>
+</html>
