@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tahoe Weather & Road Report — Feb 14–16, 2026</title>
+<style>
+  :root {
+    --green: #10b981; --green-bg: #ecfdf5; --green-border: #6ee7b7;
+    --yellow: #f59e0b; --yellow-bg: #fffbeb; --yellow-border: #fcd34d;
+    --red: #ef4444; --red-bg: #fef2f2; --red-border: #fca5a5;
+    --blue: #2563eb; --blue-light: #dbeafe; --blue-dark: #1e3a5f;
+    --snow: #f0f4ff; --slate: #334155; --muted: #64748b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--snow); color: var(--slate); line-height: 1.6; }
+  .container { max-width: 900px; margin: 0 auto; padding: 16px; }
+  header { background: linear-gradient(135deg, var(--blue-dark), #1e40af); color: white; padding: 32px 24px; border-radius: 12px; margin-bottom: 24px; }
+  header h1 { font-size: 1.8em; margin-bottom: 4px; }
+  header .subtitle { opacity: 0.85; font-size: 0.95em; }
+  header .generated { opacity: 0.6; font-size: 0.8em; margin-top: 8px; }
+  .route-bar { background: white; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px 20px; margin-bottom: 20px; font-size: 0.85em; overflow-x: auto; }
+  .route-bar .route { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .route-bar .town { font-weight: 600; white-space: nowrap; }
+  .route-bar .elev { color: var(--muted); font-size: 0.85em; }
+  .route-bar .arrow { color: #94a3b8; }
+  .summary-box { border-radius: 10px; padding: 20px 24px; margin-bottom: 24px; font-size: 0.95em; }
+  .summary-green { background: var(--green-bg); border: 2px solid var(--green-border); }
+  .summary-yellow { background: var(--yellow-bg); border: 2px solid var(--yellow-border); }
+  .summary-red { background: var(--red-bg); border: 2px solid var(--red-border); }
+  .summary-box h2 { font-size: 1.1em; margin-bottom: 8px; }
+  .decision-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 28px; }
+  @media (max-width: 600px) { .decision-grid { grid-template-columns: 1fr; } }
+  .decision-card { background: white; border-radius: 10px; padding: 16px; border: 2px solid #e2e8f0; text-align: center; }
+  .decision-card.go { border-color: var(--green-border); }
+  .decision-card.caution { border-color: var(--yellow-border); }
+  .decision-card.danger { border-color: var(--red-border); }
+  .decision-card .day { font-weight: 700; font-size: 1.05em; margin-bottom: 2px; }
+  .decision-card .date { color: var(--muted); font-size: 0.85em; margin-bottom: 8px; }
+  .decision-card .verdict { font-weight: 700; font-size: 1.1em; padding: 4px 12px; border-radius: 20px; display: inline-block; }
+  .verdict-go { background: var(--green-bg); color: #047857; }
+  .verdict-caution { background: var(--yellow-bg); color: #b45309; }
+  .verdict-danger { background: var(--red-bg); color: #b91c1c; }
+  .decision-card .detail { margin-top: 8px; font-size: 0.85em; color: var(--muted); }
+  .day-section { background: white; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 24px; overflow: hidden; }
+  .day-header { padding: 18px 24px; color: white; }
+  .day-header.green { background: var(--green); }
+  .day-header.yellow { background: var(--yellow); }
+  .day-header.red { background: var(--red); }
+  .day-header h2 { font-size: 1.2em; }
+  .day-header .tagline { opacity: 0.9; font-size: 0.9em; }
+  .day-body { padding: 20px 24px; }
+  .timeline { margin: 16px 0; }
+  .tl-item { display: flex; gap: 14px; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-size: 0.9em; }
+  .tl-item:last-child { border-bottom: none; }
+  .tl-time { font-weight: 700; min-width: 65px; white-space: nowrap; }
+  .tl-loc { font-weight: 600; min-width: 110px; white-space: nowrap; }
+  .tl-cond { flex: 1; }
+  .badge { display: inline-block; font-size: 0.75em; font-weight: 700; padding: 2px 8px; border-radius: 12px; margin-left: 6px; vertical-align: middle; }
+  .badge-go { background: var(--green-bg); color: #047857; }
+  .badge-warn { background: var(--yellow-bg); color: #b45309; }
+  .badge-danger { background: var(--red-bg); color: #b91c1c; }
+  .key-details { background: #f8fafc; border-radius: 8px; padding: 14px 18px; margin-top: 16px; font-size: 0.88em; }
+  .key-details h3 { font-size: 0.95em; margin-bottom: 8px; }
+  .key-details ul { padding-left: 18px; }
+  .key-details li { margin-bottom: 4px; }
+  .snow-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.88em; }
+  .snow-table th, .snow-table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+  .snow-table th { background: #f1f5f9; font-weight: 600; }
+  .snow-table .snow-val { font-weight: 700; color: var(--blue); }
+  .recs { background: white; border-radius: 12px; border: 1px solid #e2e8f0; padding: 24px; margin-bottom: 24px; }
+  .recs h2 { font-size: 1.2em; margin-bottom: 16px; }
+  .rec-item { margin-bottom: 16px; padding-left: 16px; border-left: 3px solid var(--blue); }
+  .rec-item h3 { font-size: 1em; margin-bottom: 4px; }
+  .rec-item p { font-size: 0.9em; color: var(--muted); }
+  .resources { background: white; border-radius: 12px; border: 1px solid #e2e8f0; padding: 24px; margin-bottom: 24px; }
+  .resources h2 { font-size: 1.1em; margin-bottom: 12px; }
+  .resources a { color: var(--blue); text-decoration: none; }
+  .resources a:hover { text-decoration: underline; }
+  .resources ul { list-style: none; padding: 0; }
+  .resources li { padding: 6px 0; font-size: 0.9em; border-bottom: 1px solid #f1f5f9; }
+  .resources li:last-child { border-bottom: none; }
+  .sources { font-size: 0.8em; color: var(--muted); padding: 16px 0; }
+  .warn-banner { background: var(--red-bg); border: 2px solid var(--red-border); border-radius: 10px; padding: 16px 20px; margin: 16px 0; font-size: 0.9em; }
+  .warn-banner strong { color: #b91c1c; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>🏔️ Weather & Road Conditions</h1>
+  <div class="subtitle">San Jose, CA → Incline Village, NV &nbsp;|&nbsp; February 14–16, 2026</div>
+  <div class="generated">Report generated: Friday, Feb 13, 2026, 5:15 PM PST &nbsp;•&nbsp; Sources: Open-Meteo, NWS, OpenSnow, Caltrans</div>
+</header>
+
+<div class="route-bar">
+  <div class="route">
+    <span class="town">San Jose <span class="elev">(85 ft)</span></span> <span class="arrow">→</span>
+    <span class="town">Livermore <span class="elev">(502 ft)</span></span> <span class="arrow">→</span>
+    <span class="town">Tracy <span class="elev">(56 ft)</span></span> <span class="arrow">→</span>
+    <span class="town">Sacramento <span class="elev">(72 ft)</span></span> <span class="arrow">→</span>
+    <span class="town">Auburn <span class="elev">(1,227 ft)</span></span> <span class="arrow">→</span>
+    <span class="town">Colfax <span class="elev">(2,421 ft)</span></span> <span class="arrow">→</span>
+    <span class="town">Donner Pass <span class="elev">(7,056 ft)</span></span> <span class="arrow">→</span>
+    <span class="town">Truckee <span class="elev">(5,820 ft)</span></span> <span class="arrow">→</span>
+    <span class="town">Incline Village <span class="elev">(6,350 ft)</span></span>
+  </div>
+  <div style="margin-top:8px;color:var(--muted);font-size:0.85em;">~220 miles &nbsp;•&nbsp; Normal drive: 3.5–4 hours</div>
+</div>
+
+<div class="summary-box summary-green">
+  <h2>⚡ KEY TAKEAWAY</h2>
+  <p><strong>Saturday Feb 14 is your BEST window to drive up.</strong> Dry conditions along the entire route. Sunday is OK if you leave early (before noon), but rain arrives in the valley by 3 PM and snow by evening. <strong>Monday Feb 16 (Presidents Day) is DANGEROUS</strong> — heavy snow (14"+ at summit), whiteout visibility, guaranteed chain controls, possible road closures. A parade of storms begins Sunday night and won't let up for 5–6 days.</p>
+</div>
+
+<div class="decision-grid">
+  <div class="decision-card go">
+    <div class="day">Saturday</div>
+    <div class="date">Feb 14 — Valentine's Day</div>
+    <div class="verdict verdict-go">✅ GO</div>
+    <div class="detail">Dry, 42–60°F<br>No chains needed<br>Best day by far</div>
+  </div>
+  <div class="decision-card caution">
+    <div class="day">Sunday</div>
+    <div class="date">Feb 15</div>
+    <div class="verdict verdict-caution">⚠️ AM ONLY</div>
+    <div class="detail">Dry morning, rain by 3 PM<br>Snow at elevation by evening<br>Arrive before 2 PM</div>
+  </div>
+  <div class="decision-card danger">
+    <div class="day">Monday</div>
+    <div class="date">Feb 16 — Presidents Day</div>
+    <div class="verdict verdict-danger">🔴 AVOID</div>
+    <div class="detail">Heavy snow 14"+ at summit<br>Whiteout, closures likely<br>Do not drive</div>
+  </div>
+</div>
+
+<!-- DAY 1 -->
+<div class="day-section">
+  <div class="day-header green">
+    <h2>📅 Saturday, February 14 — Valentine's Day</h2>
+    <div class="tagline">✅ BEST DAY TO DRIVE — Clear & Dry</div>
+  </div>
+  <div class="day-body">
+    <p>Mostly sunny to partly cloudy. No precipitation along the entire route. Light winds. Excellent driving conditions all day.</p>
+    <div class="timeline">
+      <div class="tl-item"><span class="tl-time">6:00 AM</span><span class="tl-loc">San Jose</span><span class="tl-cond">46°F, foggy patches, 1 mph wind <span class="badge badge-warn">Fog</span></span></div>
+      <div class="tl-item"><span class="tl-time">7:00 AM</span><span class="tl-loc">Tracy</span><span class="tl-cond">44°F, dense Tule fog possible, visibility 328 ft <span class="badge badge-warn">Fog</span></span></div>
+      <div class="tl-item"><span class="tl-time">7:45 AM</span><span class="tl-loc">Sacramento</span><span class="tl-cond">46°F, overcast, good visibility <span class="badge badge-go">Clear</span></span></div>
+      <div class="tl-item"><span class="tl-time">8:30 AM</span><span class="tl-loc">Auburn</span><span class="tl-cond">42°F, overcast, visibility 9.7 mi <span class="badge badge-go">Clear</span></span></div>
+      <div class="tl-item"><span class="tl-time">9:00 AM</span><span class="tl-loc">Colfax</span><span class="tl-cond">47°F, overcast, visibility 13 mi <span class="badge badge-go">Clear</span></span></div>
+      <div class="tl-item"><span class="tl-time">10:00 AM</span><span class="tl-loc">Truckee</span><span class="tl-cond">36°F, overcast, dry roads <span class="badge badge-go">Clear</span></span></div>
+      <div class="tl-item"><span class="tl-time">10:30 AM</span><span class="tl-loc">Incline Village</span><span class="tl-cond">35°F, overcast, visibility 29 mi <span class="badge badge-go">Clear</span></span></div>
+    </div>
+    <div class="key-details">
+      <h3>Key Details</h3>
+      <ul>
+        <li><strong>Precipitation:</strong> None along entire route</li>
+        <li><strong>Chain controls:</strong> None expected</li>
+        <li><strong>Fog risk:</strong> Tule fog in Central Valley (Tracy) early AM — clears by 10 AM</li>
+        <li><strong>Wind:</strong> Light, under 12 mph everywhere</li>
+        <li><strong>Best departure:</strong> 7:00–9:00 AM (after fog burns off)</li>
+        <li><strong>⚠️ Late evening:</strong> Clouds increase overnight. Storm approaching.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- DAY 2 -->
+<div class="day-section">
+  <div class="day-header yellow">
+    <h2>📅 Sunday, February 15</h2>
+    <div class="tagline">⚠️ Dry Morning, Deteriorating by Afternoon</div>
+  </div>
+  <div class="day-body">
+    <p>Morning is dry and partly sunny. Clouds build through the day. Rain arrives in the valley by 3 PM. Snow above 5,500 ft by evening. Storm intensifies overnight.</p>
+    <h3 style="margin:16px 0 8px;font-size:0.95em;">Morning — Good Driving Window</h3>
+    <div class="timeline">
+      <div class="tl-item"><span class="tl-time">6:00 AM</span><span class="tl-loc">San Jose</span><span class="tl-cond">53°F, partly cloudy, excellent visibility <span class="badge badge-go">Clear</span></span></div>
+      <div class="tl-item"><span class="tl-time">7:45 AM</span><span class="tl-loc">Sacramento</span><span class="tl-cond">50°F, clear, 11 mph wind <span class="badge badge-go">Clear</span></span></div>
+      <div class="tl-item"><span class="tl-time">9:00 AM</span><span class="tl-loc">Colfax</span><span class="tl-cond">45°F, partly cloudy, excellent visibility <span class="badge badge-go">Clear</span></span></div>
+      <div class="tl-item"><span class="tl-time">10:00 AM</span><span class="tl-loc">Truckee</span><span class="tl-cond">37°F, clear, 11 mph wind <span class="badge badge-go">Clear</span></span></div>
+      <div class="tl-item"><span class="tl-time">10:30 AM</span><span class="tl-loc">Incline Village</span><span class="tl-cond">35°F, clear <span class="badge badge-go">Clear</span></span></div>
+    </div>
+    <h3 style="margin:16px 0 8px;font-size:0.95em;">Afternoon — Weather Deteriorating</h3>
+    <div class="timeline">
+      <div class="tl-item"><span class="tl-time">3:00 PM</span><span class="tl-loc">Sacramento</span><span class="tl-cond">61°F, light drizzle starting <span class="badge badge-warn">Rain</span></span></div>
+      <div class="tl-item"><span class="tl-time">3:00 PM</span><span class="tl-loc">Colfax</span><span class="tl-cond">52°F, drizzle <span class="badge badge-warn">Rain</span></span></div>
+      <div class="tl-item"><span class="tl-time">6:00 PM</span><span class="tl-loc">Auburn</span><span class="tl-cond">50°F, rain, wet roads <span class="badge badge-warn">Rain</span></span></div>
+      <div class="tl-item"><span class="tl-time">9:00 PM</span><span class="tl-loc">Colfax</span><span class="tl-cond">44°F, heavy rain, visibility 1 mi <span class="badge badge-danger">Heavy Rain</span></span></div>
+      <div class="tl-item"><span class="tl-time">9:00 PM</span><span class="tl-loc">Truckee</span><span class="tl-cond">27°F, snow flurries starting <span class="badge badge-danger">Snow</span></span></div>
+    </div>
+    <div class="key-details">
+      <h3>Key Details</h3>
+      <ul>
+        <li><strong>Precipitation:</strong> Rain in valley 3–11 PM. First snow above 5,500 ft late evening.</li>
+        <li><strong>Chain controls:</strong> Unlikely before midnight. Possible after midnight.</li>
+        <li><strong>Snow level:</strong> 6,000 ft → drops to 5,000 ft by midnight → 4,400 ft after midnight</li>
+        <li><strong>Best departure:</strong> Before 8:00 AM — arrive by early afternoon</li>
+        <li><strong>Hard deadline:</strong> Be at Incline Village by 2:00 PM</li>
+        <li><strong>Wind:</strong> 10–18 mph, gusts to 30 mph. Ridge gusts to 60 mph.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- DAY 3 -->
+<div class="day-section">
+  <div class="day-header red">
+    <h2>📅 Monday, February 16 — Presidents Day</h2>
+    <div class="tagline">🔴 DANGEROUS — Heavy Snow, Potential Road Closures</div>
+  </div>
+  <div class="day-body">
+    <div class="warn-banner">
+      <strong>⚠️ NWS Winter Storm Warning:</strong> Sierra Nevada above 6,500 ft, 5 AM Monday – 5 AM Wednesday. Heavy snow 1–2 feet at lake level, 3–5 feet above 7,000 ft. Wind gusts 65–100 mph on ridges.
+    </div>
+    <div class="timeline">
+      <div class="tl-item"><span class="tl-time">6:00 AM</span><span class="tl-loc">San Jose</span><span class="tl-cond">49°F, rain showers <span class="badge badge-warn">Rain</span></span></div>
+      <div class="tl-item"><span class="tl-time">6:00 AM</span><span class="tl-loc">Sacramento</span><span class="tl-cond">49°F, moderate rain <span class="badge badge-warn">Rain</span></span></div>
+      <div class="tl-item"><span class="tl-time">6:00 AM</span><span class="tl-loc">Colfax</span><span class="tl-cond">36°F, rain at snow line <span class="badge badge-warn">Rain/Snow</span></span></div>
+      <div class="tl-item"><span class="tl-time">6:00 AM</span><span class="tl-loc">Truckee</span><span class="tl-cond">30°F, HEAVY SNOW, visibility 100 ft <span class="badge badge-danger">Whiteout</span></span></div>
+      <div class="tl-item"><span class="tl-time">6:00 AM</span><span class="tl-loc">Incline Village</span><span class="tl-cond">29°F, HEAVY SNOW, visibility 150 ft <span class="badge badge-danger">Whiteout</span></span></div>
+      <div class="tl-item"><span class="tl-time">9:00 AM</span><span class="tl-loc">Auburn</span><span class="tl-cond">40°F, heavy rain, visibility 380 ft <span class="badge badge-danger">Dangerous</span></span></div>
+      <div class="tl-item"><span class="tl-time">9:00 AM</span><span class="tl-loc">Colfax</span><span class="tl-cond">35°F, SNOW on road, visibility 380 ft <span class="badge badge-danger">Snow</span></span></div>
+      <div class="tl-item"><span class="tl-time">9:00 AM</span><span class="tl-loc">Truckee</span><span class="tl-cond">32°F, HEAVY SNOW, visibility 100 ft <span class="badge badge-danger">Whiteout</span></span></div>
+      <div class="tl-item"><span class="tl-time">12:00 PM</span><span class="tl-loc">Auburn</span><span class="tl-cond">41°F, heavy rain, visibility 120 ft <span class="badge badge-danger">Zero Vis</span></span></div>
+      <div class="tl-item"><span class="tl-time">12:00 PM</span><span class="tl-loc">Colfax</span><span class="tl-cond">35°F, SNOW, visibility 120 ft <span class="badge badge-danger">Whiteout</span></span></div>
+      <div class="tl-item"><span class="tl-time">12:00 PM</span><span class="tl-loc">Incline Village</span><span class="tl-cond">32°F, HEAVY SNOW, visibility 500 ft <span class="badge badge-danger">Dangerous</span></span></div>
+      <div class="tl-item"><span class="tl-time">3:00 PM</span><span class="tl-loc">Truckee</span><span class="tl-cond">27°F, HEAVY SNOW, visibility 120 ft <span class="badge badge-danger">Whiteout</span></span></div>
+      <div class="tl-item"><span class="tl-time">6:00 PM</span><span class="tl-loc">Truckee</span><span class="tl-cond">26°F, HEAVY SNOW, visibility 100 ft <span class="badge badge-danger">Extreme</span></span></div>
+      <div class="tl-item"><span class="tl-time">9:00 PM</span><span class="tl-loc">Truckee</span><span class="tl-cond">26°F, BLIZZARD, 22 mph wind, visibility 40 ft <span class="badge badge-danger">Road Closed</span></span></div>
+      <div class="tl-item"><span class="tl-time">9:00 PM</span><span class="tl-loc">Incline Village</span><span class="tl-cond">24°F, BLIZZARD, 22 mph wind, visibility 80 ft <span class="badge badge-danger">Road Closed</span></span></div>
+    </div>
+
+    <h3 style="margin:20px 0 10px;font-size:0.95em;">❄️ Expected Snowfall by Elevation</h3>
+    <table class="snow-table">
+      <tr><th>Elevation</th><th>Location</th><th>Expected Snow</th></tr>
+      <tr><td>Below 2,000 ft</td><td>Valley floor</td><td>Rain only</td></tr>
+      <tr><td>2,400 ft</td><td>Colfax</td><td class="snow-val">2"</td></tr>
+      <tr><td>4,000–5,500 ft</td><td>Emigrant Gap</td><td class="snow-val">6–12"</td></tr>
+      <tr><td>5,800 ft</td><td>Truckee</td><td class="snow-val">14"</td></tr>
+      <tr><td>6,350 ft</td><td>Incline Village</td><td class="snow-val">10"</td></tr>
+      <tr><td>7,056 ft</td><td>Donner Pass</td><td class="snow-val">18–24"</td></tr>
+      <tr><td>Above 7,000 ft</td><td>Mountain peaks</td><td class="snow-val">24–36"</td></tr>
+    </table>
+
+    <div class="key-details">
+      <h3>Key Details</h3>
+      <ul>
+        <li><strong>Chain controls:</strong> R2/R3 GUARANTEED on I-80 Colfax to Truckee</li>
+        <li><strong>Road closure risk:</strong> HIGH — I-80 over Donner Pass may close if snowfall &gt;2"/hr</li>
+        <li><strong>Wind:</strong> 7–22 mph at pass, gusts 65–80 mph on ridges</li>
+        <li><strong>Snow level:</strong> 5,000 ft → drops to 4,000 ft by afternoon → 3,000 ft by evening</li>
+        <li><strong>Visibility:</strong> Near-zero (100–500 ft) in mountains ALL DAY</li>
+        <li><strong>DO NOT DRIVE unless absolutely necessary</strong></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- RECOMMENDATIONS -->
+<div class="recs">
+  <h2>🚗 Driving Recommendations</h2>
+  <div class="rec-item">
+    <h3>✅ Best: Saturday, Feb 14</h3>
+    <p>Depart 7–9 AM. Dry, no chains needed. AWD sufficient. Normal 3.5–4 hr drive. Watch for Tule fog in Tracy before 9 AM.</p>
+  </div>
+  <div class="rec-item">
+    <h3>⚠️ Acceptable: Sunday, Feb 15 (AM only)</h3>
+    <p>Depart before 8 AM. Arrive by 2 PM. Rain starts 3 PM in valley, snow at elevation by evening. Carry chains just in case.</p>
+  </div>
+  <div class="rec-item">
+    <h3>🔴 Avoid: Monday, Feb 16</h3>
+    <p>Heavy rain valley, heavy snow mountains, whiteout conditions. R2/R3 chain controls mandatory. I-80 closure risk HIGH. If you must: expect 6–8 hr drive, carry chains/food/water/blankets.</p>
+  </div>
+  <div class="rec-item">
+    <h3>⚠️ Return Trip Warning</h3>
+    <p>Storm continues through Wednesday Feb 18. Per SF Chronicle: "Once snow starts falling, there may not be a significant break for 5–6 days." Consider staying until Thursday if possible, or leaving very early Sunday.</p>
+  </div>
+</div>
+
+<!-- RESOURCES -->
+<div class="resources">
+  <h2>📡 Check Before You Drive</h2>
+  <ul>
+    <li>🗺️ <a href="https://quickmap.dot.ca.gov/" target="_blank">Caltrans QuickMap</a> — Live road conditions, chain controls, closures</li>
+    <li>🛣️ <a href="https://roads.dot.ca.gov/roadscell.php?roadnumber=80" target="_blank">Caltrans I-80 Status</a> — Current chain control level</li>
+    <li>📷 <a href="https://cwwp2.dot.ca.gov/vm/iframemap.htm" target="_blank">Caltrans Road Cameras</a> — See conditions live</li>
+    <li>❄️ <a href="https://opensnow.com/dailysnow/tahoe" target="_blank">OpenSnow Tahoe</a> — Daily snow forecast from Bryan Allegretto</li>
+    <li>🐦 <a href="https://x.com/NWSSacramento" target="_blank">@NWSSacramento</a> — NWS warnings and watches</li>
+    <li>🐦 <a href="https://x.com/CHP_Truckee" target="_blank">@CHP_Truckee</a> — Real-time road closure updates</li>
+  </ul>
+</div>
+
+<div class="sources">
+  <strong>Sources:</strong> Open-Meteo API (hourly forecast data), NWS Sacramento (CAZ069, CAZ072), OpenSnow (Bryan Allegretto), Palisades Tahoe weather blog, SF Chronicle, KQED, Reno Gazette-Journal, Caltrans. Report based on data available Feb 13, 2026 5:15 PM PST. Forecasts subject to change — always check real-time sources.
+</div>
+
+</div>
+</body>
+</html>
